@@ -1,0 +1,35 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/*to make container stay the same size even with squares in it even when resizing the browser*/
+.wraper {
+  width: 600px;
+  height: 600px;
+}
+
+.container {
+  width: 600px;
+  border: 1px solid #000;
+  /* these two lines helped me to create a functional grid layout */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.square {
+  background-color: white;
+  border: 1px solid #000;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+}
