@@ -86,6 +86,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  //reset function to reset everything to blank
+  function reset() {
+    squares.forEach(function (square) {
+      square.style.backgroundColor = '';
+    });
+
+    sliderInput.value = 16;
+    sliderValue.textContent = '16x16';
+    createGrid(16, 16);
+  }
+
   // Event listener to change the behavior when the hoverColorBtn is clicked
   document.getElementById('hoverColorBtn').addEventListener('click', toggle);
 
@@ -102,3 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
     isRainbowMode = true; //set to rainbow mode
   });
 });
+
+//event listener for the reset button
+document.getElementById('resetBtn').addEventListener('click', reset);
