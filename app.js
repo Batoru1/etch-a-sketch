@@ -92,9 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
       square.style.backgroundColor = '';
     });
 
-    sliderInput.value = 16;
-    sliderValue.textContent = '16x16';
-    createGrid(16, 16);
+    sliderInput.value = 1;
+    sliderValue.textContent = '1x1';
+    createGrid(1, 1);
   }
 
   // Event listener to change the behavior when the hoverColorBtn is clicked
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('rainbowBtn').addEventListener('click', function () {
     isRainbowMode = true; //set to rainbow mode
   });
-});
 
-//event listener for the reset button
-document.getElementById('resetBtn').addEventListener('click', reset);
+  //event listener for the reset button
+  document.getElementById('resetBtn').addEventListener('click', reset);
+});
