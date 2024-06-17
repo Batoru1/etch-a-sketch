@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
       square.style.opacity = currentOpacity; // update the square's opacity
     });
   }
-  //mistral/////for darken
 
   // Event listener for the darken button
   document.getElementById('darkenBtn').addEventListener('click', darkenSquares);
+  //mistral/////for darken
 
   function createGrid(rows, columns) {
     // Remove existing square elements and their event listeners
