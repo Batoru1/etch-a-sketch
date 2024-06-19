@@ -19,20 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Event listener for the darken button
-  // document.getElementById('darkenBtn').addEventListener('click', darkenSquares);
-  darkenBtn.addEventListener('click', () => {
-    const squares = document.querySelectorAll('.square');
-    squares.forEach(square => {
-      square.addEventListener('click', () => {
-        if (square.style.backgroundColor !== 'black') {
-          square.style.backgroundColor = 'black';
-        } else {
-          square.style.backgroundColor = '';
-        }
-      });
-    });
-  });
-
+  document.getElementById('darkenBtn').addEventListener('click', darkenSquares);
   //mistral/////for darken
 
   function createGrid(rows, columns) {
