@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function darkenSquares() {
     squares.forEach(function (square) {
-      let currentOpacity = parseFloat(square.style.opacity) || 0; // get the current opacity of the square, or use 1 if it hasn't been set yet
+      let currentOpacity = parseFloat(square.style.opacity) || 0; // get the current opacity of the square, or use 0 if it hasn't been set yet
       currentOpacity += darkenFactor; // decrease the opacity by the darken factor
       if (currentOpacity < 0) {
         currentOpacity = 0; // don't allow the opacity to go below 0
@@ -19,7 +19,20 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Event listener for the darken button
-  document.getElementById('darkenBtn').addEventListener('click', darkenSquares);
+  // document.getElementById('darkenBtn').addEventListener('click', darkenSquares);
+  darkenBtn.addEventListener('click', () => {
+    const squares = document.querySelectorAll('.square');
+    squares.forEach(square => {
+      square.addEventListener('click', () => {
+        if (square.style.backgroundColor !== 'black') {
+          square.style.backgroundColor = 'black';
+        } else {
+          square.style.backgroundColor = '';
+        }
+      });
+    });
+  });
+
   //mistral/////for darken
 
   function createGrid(rows, columns) {
