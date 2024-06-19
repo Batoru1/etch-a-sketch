@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function darkenSquares() {
     squares.forEach(function (square) {
-      let currentOpacity = parseFloat(square.style.opacity) || 1; // get the current opacity of the square, or use 1 if it hasn't been set yet
-      currentOpacity -= darkenFactor; // decrease the opacity by the darken factor
+      let currentOpacity = parseFloat(square.style.opacity) || 0; // get the current opacity of the square, or use 1 if it hasn't been set yet
+      currentOpacity += darkenFactor; // decrease the opacity by the darken factor
       if (currentOpacity < 0) {
         currentOpacity = 0; // don't allow the opacity to go below 0
       }
