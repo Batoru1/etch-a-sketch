@@ -4,23 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const sliderValue = document.getElementById('slider-value');
   let squares = [];
   let isRainbowMode = false; //Flag to track rainow mode
-  //mistral///fordarken
-  let darkenFactor = 0.1; // the amount to decrease the opacity by on each interaction
-
-  function darkenSquares() {
-    squares.forEach(function (square) {
-      let currentOpacity = parseFloat(square.style.opacity) || 0; // get the current opacity of the square, or use 0 if it hasn't been set yet
-      currentOpacity += darkenFactor; // decrease the opacity by the darken factor
-      if (currentOpacity < 0) {
-        currentOpacity = 0; // don't allow the opacity to go below 0
-      }
-      square.style.opacity = currentOpacity; // update the square's opacity
-    });
-  }
-
-  // Event listener for the darken button
-  document.getElementById('darkenBtn').addEventListener('click', darkenSquares);
-  //mistral/////for darken
 
   function createGrid(rows, columns) {
     // Remove existing square elements and their event listeners
