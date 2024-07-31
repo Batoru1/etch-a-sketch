@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const sliderInput = document.getElementById('slider-input');
   const sliderValue = document.getElementById('slider-value');
   let squares = [];
-  let isRainbowMode = false; //Flag to track rainow mode
+  let isRainbowMode = false; // Flag to track rainbow mode
+  let isDarkenMode = false; // Flag to track darken mode
+  let isHoverMode = false; // Flag to track hover mode
 
   function createGrid(rows, columns) {
     // Remove existing square elements and their event listeners
@@ -31,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
       container.appendChild(square);
       squares.push(square); // Add the square to the array
       // Add event listeners for the new square
-      square.addEventListener('mouseenter', function () {}); //so that 'nothing happens initially
+      square.addEventListener('mouseenter', function () {}); // So that 'nothing happens initially
       square.addEventListener('click', changeColorOnClick);
     }
   }
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       return color;
     } else {
-      return 'black'; //return black in black mode
+      return 'black'; // Return black in black mode
     }
   }
 
@@ -68,28 +70,103 @@ document.addEventListener('DOMContentLoaded', function () {
     this.style.backgroundColor = getRandomColor();
   }
 
-  function toggle() {
-    // Toggle between rainbow and black mode
-    isRainbowMode = squares[0].classList.toggle('rainbow-mode');
-    // Change event listeners for squares
-    squares.forEach(function (square) {
+  function darkenColor(color) {
+    // Darken the color by 10%
+    let colorObj = new Option().style;
+    colorObj.color = color;
+    let rgb = colorObj.color.match(/\d+/g).map(Number);
+
+    // Reduce each RGB component by 10%
+    rgb = rgb.map(component =>
+      Math.max(component - Math.round(component * 0.1), 0)
+    );
+
+    return `rgb(${rgb.join(',')})`;
+  }
+
+  function changeColorOnHoverDarken() {
+    // Gradually darken the background color on hover
+    this.style.backgroundColor = darkenColor(this.style.backgroundColor);
+  }
+
+  function changeColorOnClickDarken() {
+    // Gradually darken the background color on click
+    this.style.backgroundColor = darkenColor(this.style.backgroundColor);
+  }
+
+  function toggleHover() {
+    isHoverMode = true;
+    isDarkenMode = false;
+    squares.forEach(square => {
       square.removeEventListener('click', changeColorOnClick);
       square.removeEventListener('mouseenter', changeColorOnHover);
+      square.removeEventListener('click', changeColorOnClickDarken);
+      square.removeEventListener('mouseenter', changeColorOnHoverDarken);
       if (isRainbowMode) {
         square.addEventListener('mouseenter', changeColorOnHover);
-        square.style.cursor = 'pointer'; // Add pointer cursor on hover
       } else {
-        square.addEventListener('click', changeColorOnClick);
-
-        square.style.cursor = 'default'; // Remove pointer cursor
+        square.addEventListener('mouseenter', changeColorOnHoverDarken);
       }
+      square.style.cursor = 'pointer'; // Add pointer cursor on hover
     });
   }
 
-  //reset function to reset everything to blank
+  function toggleClick() {
+    isHoverMode = false;
+    isDarkenMode = false;
+    squares.forEach(square => {
+      square.removeEventListener('click', changeColorOnClick);
+      square.removeEventListener('mouseenter', changeColorOnHover);
+      square.removeEventListener('click', changeColorOnClickDarken);
+      square.removeEventListener('mouseenter', changeColorOnHoverDarken);
+      if (isRainbowMode) {
+        square.addEventListener('click', changeColorOnClick);
+      } else {
+        square.addEventListener('click', changeColorOnClickDarken);
+      }
+      square.style.cursor = 'default'; // Remove pointer cursor
+    });
+  }
+
+  function toggleDarken() {
+    isDarkenMode = !isDarkenMode;
+    isHoverMode = false;
+    isRainbowMode = false;
+    squares.forEach(square => {
+      square.removeEventListener('click', changeColorOnClick);
+      square.removeEventListener('mouseenter', changeColorOnHover);
+      square.removeEventListener('click', changeColorOnClickDarken);
+      square.removeEventListener('mouseenter', changeColorOnHoverDarken);
+      if (isDarkenMode) {
+        square.addEventListener('click', changeColorOnClickDarken);
+      } else {
+        square.addEventListener('click', changeColorOnClick);
+      }
+      square.style.cursor = 'default'; // Remove pointer cursor
+    });
+  }
+
+  function toggleRainbow() {
+    isRainbowMode = !isRainbowMode;
+    isDarkenMode = false;
+    squares.forEach(square => {
+      square.removeEventListener('click', changeColorOnClick);
+      square.removeEventListener('mouseenter', changeColorOnHover);
+      square.removeEventListener('click', changeColorOnClickDarken);
+      square.removeEventListener('mouseenter', changeColorOnHoverDarken);
+      if (isHoverMode) {
+        square.addEventListener('mouseenter', changeColorOnHover);
+      } else {
+        square.addEventListener('click', changeColorOnClick);
+      }
+      square.style.cursor = 'default'; // Remove pointer cursor
+    });
+  }
+
+  // Reset function to reset everything to blank
   function reset() {
-    squares.forEach(function (square) {
-      square.style.backgroundColor = '';
+    squares.forEach(square => {
+      square.style.backgroundColor = 'white'; // Reset to white background
     });
 
     sliderInput.value = 1;
@@ -98,21 +175,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Event listener to change the behavior when the hoverColorBtn is clicked
-  document.getElementById('hoverColorBtn').addEventListener('click', toggle);
+  document
+    .getElementById('hoverColorBtn')
+    .addEventListener('click', toggleHover);
 
   // Event listener to change the behavior when the clickColorBtn is clicked
-  document.getElementById('clickColorBtn').addEventListener('click', toggle);
+  document
+    .getElementById('clickColorBtn')
+    .addEventListener('click', toggleClick);
 
-  //event listener for the black btn
+  // Event listener for the black button
   document.getElementById('blackBtn').addEventListener('click', function () {
-    isRainbowMode = false; //set to black mode
+    isRainbowMode = false; // Set to black mode
+    isDarkenMode = false; // Disable darken mode
+    toggleClick();
   });
 
-  //event listener for the rainbow btn
-  document.getElementById('rainbowBtn').addEventListener('click', function () {
-    isRainbowMode = true; //set to rainbow mode
-  });
+  // Event listener for the rainbow button
+  document
+    .getElementById('rainbowBtn')
+    .addEventListener('click', toggleRainbow);
 
-  //event listener for the reset button
+  // Event listener for the reset button
   document.getElementById('resetBtn').addEventListener('click', reset);
+
+  // Event listener for the darken button
+  document.getElementById('darkenBtn').addEventListener('click', toggleDarken);
 });
